@@ -1,5 +1,8 @@
 import React from 'react'
+// components
 import './header.styles.css'
+
+// icons
 import { BsCart3 } from 'react-icons/bs'
 const Header = () => {
   return (
