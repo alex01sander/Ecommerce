@@ -1,3 +1,4 @@
+
 import './categories.styles.css'
 import { useEffect, useState } from 'react'
 
