@@ -1,14 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import "./App.css";
 
-function App() {
+import './App.css'
+import Header from './components/header/header.components'
+
+function App () {
   return (
-    <div className="App">
-     <h1>teste</h1>
-    </div>
-  );
+    <>
+    <Header/>
+    </>
+
+  )
 }
 
-export default App;
- 
+export default App
