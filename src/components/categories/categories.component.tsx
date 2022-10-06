@@ -11,6 +11,7 @@ import './categories.styles.css'
 // Utilities
 import Category from '../../types/category.types'
 import env from '../../config/env.config'
+import { CategoriesContainer, CategoriesContent } from './categoris.styles'
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([])
@@ -29,15 +30,15 @@ const Categories = () => {
     featchCategories()
   }, [])
   return (
-    <div className="categories-container">
-      <div className="categories-content">
+    <CategoriesContainer>
+      <CategoriesContent>
         {categories.map((category) => (
           <div key={category.id}>
             <CategoryItem category={category} />
           </div>
         ))}
-      </div>
-    </div>
+      </CategoriesContent>
+    </CategoriesContainer>
   )
 }
 
