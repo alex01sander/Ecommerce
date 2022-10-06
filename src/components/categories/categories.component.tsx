@@ -9,12 +9,11 @@ import axios from 'axios'
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([])
 
-  console.log({ categories })
-
   const featchCategories = async () => {
     try {
+      console.log({ categories })
       const { data } = await axios.get(`${env.apiUrl}/api/category`)
-
+      console.log({ data })
       setCategories(data)
     } catch (error) {
       console.log(error)
