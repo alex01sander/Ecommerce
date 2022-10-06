@@ -4,11 +4,11 @@ import Header from '../../header/header.components'
 
 const HomePage = () => {
   return (
-    <div>
+    <>
         <Header/>
 
         <Categories/>
-    </div>
+    </>
   )
 }
 
