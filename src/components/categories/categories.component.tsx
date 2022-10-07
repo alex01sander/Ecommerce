@@ -6,7 +6,6 @@ import axios from 'axios'
 import CategoryItem from '../category/category-item-component'
 
 // Styles
-import './categories.styles.css'
 
 // Utilities
 import Category from '../../types/category.types'
