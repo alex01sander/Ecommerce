@@ -12,6 +12,7 @@ export const HeaderContainer = styled.div`
 export const HeaderTile = styled.h2`
     font-weight: bold;
     font-size: 1.5rem;
+    cursor: pointer;
 `
 export const HeaderItems = styled.div`
     display: flex;

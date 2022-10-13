@@ -8,19 +8,25 @@ import { HeaderContainer, HeaderItem, HeaderItems, HeaderTile } from './header.s
 
 const Header = () => {
   const navigate = useNavigate()
+  const handleHomeClick = () => {
+    navigate('/')
+  }
 
   const handleLoginClick = () => {
     navigate('/login')
   }
+  const handleSignUoClick = () => {
+    navigate('/sign-up')
+  }
 
   return (
     <HeaderContainer>
-        <HeaderTile>Sander Shop</HeaderTile>
+        <HeaderTile onClick={handleHomeClick}>Sander Shop</HeaderTile>
         <HeaderItems>
 
                 <HeaderItem>Explorar</HeaderItem>
                 <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
-                <HeaderItem>Login</HeaderItem>
+                <HeaderItem onClick={handleSignUoClick}>Criar Conta</HeaderItem>
                 <HeaderItem><BsCart3 size={25}/>5</HeaderItem>
 
         </HeaderItems>

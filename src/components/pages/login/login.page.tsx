@@ -13,8 +13,13 @@ import CustomInput from '../../custom-input/custom-input.component'
 import InputErrorMessage from '../../input-error-message/input-error-message'
 import validator from 'validator'
 
+interface LoginForm {
+    email: string
+    password: string
+}
+
 const LoginPage = () => {
-  const { register, formState: { errors }, handleSubmit } = useForm()
+  const { register, formState: { errors }, handleSubmit } = useForm<LoginForm>()
 
   const handleSubmitPress = (data: any) => {
     console.log({ data })
@@ -52,7 +57,7 @@ const LoginPage = () => {
                 </LoginInputContainer>
                 <LoginInputContainer>
                     <p>Senha</p>
-                    <CustomInput hasError={!!errors?.password}
+                    <CustomInput type="password" hasError={!!errors?.password}
                     placeholder='Digite sua senha ' {...register('password', { required: true })}/>
                      {errors?.password?.type === 'required' && (
                         <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
