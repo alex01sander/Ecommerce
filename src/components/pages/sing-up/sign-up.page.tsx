@@ -1,4 +1,3 @@
-import React from 'react'
 // Icons
 import { FiLogIn } from 'react-icons/fi'
 
@@ -15,8 +14,13 @@ import Header from '../../header/header.components'
 import { SignUpContainer, SignUpContent, SignUpHeadline, SignUpInputContainer } from './sing-up.styles'
 import InputErrorMessage from '../../input-error-message/input-error-message'
 
+// Firasebase/Firestore
+import { auth, db } from '../../../config/firebase.config'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { addDoc, collection } from '@firebase/firestore'
+
 interface SignUpForm {
-    name: string
+    firstName: string
     lastName: string
     email:string
     password: string
@@ -26,13 +30,22 @@ interface SignUpForm {
 const SignUpPage = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<SignUpForm>()
 
-  const handleSubmitPress = (data: SignUpForm) => {
-    console.log({ data })
+  const handleSubmitPress = async (data: SignUpForm) => {
+    try {
+      const userCrendentials = await createUserWithEmailAndPassword(auth, data.email, data.password)
+
+      await addDoc(collection(db, 'users'), {
+        id: userCrendentials.user.uid,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: userCrendentials.user.email
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const watchPassword = watch('password')
-
-  console.log({ errors })
 
   return (
     <>
@@ -44,11 +57,11 @@ const SignUpPage = () => {
 
                         <SignUpInputContainer>
                             <p>Nome</p>
-                            <CustomInput hasError={!!errors?.name}
-                            placeholder='Digite seu nome' {...register('name',
+                            <CustomInput hasError={!!errors?.firstName}
+                            placeholder='Digite seu nome' {...register('firstName',
                               { required: true })}/>
 
-                        {errors?.name?.type === 'required' && (
+                        {errors?.firstName?.type === 'required' && (
                         <InputErrorMessage>O nome é obrigatório.</InputErrorMessage>
                         )}
 
