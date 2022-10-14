@@ -16,7 +16,7 @@ import InputErrorMessage from '../../input-error-message/input-error-message'
 
 // Firasebase/Firestore
 import { auth, db } from '../../../config/firebase.config'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection } from '@firebase/firestore'
 
 interface SignUpForm {
@@ -28,7 +28,7 @@ interface SignUpForm {
 }
 
 const SignUpPage = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<SignUpForm>()
+  const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<SignUpForm>()
 
   const handleSubmitPress = async (data: SignUpForm) => {
     try {
@@ -41,7 +41,11 @@ const SignUpPage = () => {
         email: userCrendentials.user.email
       })
     } catch (error) {
-      console.log(error)
+      const _error = error as AuthError
+
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        return setError('email', { type: 'alreadyInUse' })
+      }
     }
   }
 
@@ -91,17 +95,24 @@ const SignUpPage = () => {
                             {errors?.email?.type === 'required' && (
                             <InputErrorMessage>O E-mail é obrigatório.</InputErrorMessage>
                             )}
+
+                            {errors?.email?.type === 'alreadyInUse' && (
+                            <InputErrorMessage>Esse e-mail já está sendo usado...</InputErrorMessage>
+                            )}
                         </SignUpInputContainer>
 
                         <SignUpInputContainer>
                             <p>Senha</p>
                             <CustomInput hasError={!!errors?.password}
                             placeholder='Digite sua senha' type="password" {...register('password', {
-                              required: true
+                              required: true, minLength: 6
                             })}/>
 
                         {errors?.password?.type === 'required' && (
                         <InputErrorMessage>A Senha é obrigatória.</InputErrorMessage>
+                        )}
+                        {errors?.password?.type === 'minLength' && (
+                        <InputErrorMessage>A Senha tem que ter no minimo 6 caracteres.</InputErrorMessage>
                         )}
                         </SignUpInputContainer>
 
@@ -110,6 +121,7 @@ const SignUpPage = () => {
                             <CustomInput hasError={!!errors?.passwordConfirmation}
                             placeholder='Confirme sua senha' type="password" {...register('passwordConfirmation', {
                               required: true,
+                              minLength: 6,
                               validate: (value) => {
                                 return value === watchPassword
                               }
@@ -119,7 +131,10 @@ const SignUpPage = () => {
                             )}
 
                             {errors?.passwordConfirmation?.type === 'validate' && (
-                        <InputErrorMessage>As senhas tem que ser iguais.</InputErrorMessage>
+                        <InputErrorMessage>As senhas não conferem.</InputErrorMessage>
+                            )}
+                            {errors?.password?.type === 'minLength' && (
+                        <InputErrorMessage>A Senha tem que ter no minimo 6 caracteres.</InputErrorMessage>
                             )}
                         </SignUpInputContainer>
 
