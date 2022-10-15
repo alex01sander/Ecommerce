@@ -12,6 +12,8 @@ import { FiLogIn } from 'react-icons/fi'
 import CustomInput from '../../custom-input/custom-input.component'
 import InputErrorMessage from '../../input-error-message/input-error-message'
 import validator from 'validator'
+import { AuthError, AuthErrorCodes, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../../config/firebase.config'
 
 interface LoginForm {
     email: string
@@ -19,13 +21,25 @@ interface LoginForm {
 }
 
 const LoginPage = () => {
-  const { register, formState: { errors }, handleSubmit } = useForm<LoginForm>()
+  const { register, setError, formState: { errors }, handleSubmit } = useForm<LoginForm>()
 
-  const handleSubmitPress = (data: any) => {
-    console.log({ data })
+  const handleSubmitPress = async (data: LoginForm) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
+
+      console.log(userCredential)
+    } catch (error) {
+      const _error = error as AuthError
+
+      if (_error.code === AuthErrorCodes.INVALID_PASSWORD) {
+        return setError('password', { type: 'invalida' })
+      }
+
+      if (_error.code === AuthErrorCodes.USER_DELETED) {
+        return setError('email', { type: 'emailInvalido' })
+      }
+    }
   }
-
-  console.log(errors)
 
   return (
     <>
@@ -54,6 +68,9 @@ const LoginPage = () => {
                     {errors?.email?.type === 'validate' && (
                         <InputErrorMessage>E-mail inválido</InputErrorMessage>
                     )}
+                     {errors?.email?.type === 'emailInvalido' && (
+                        <InputErrorMessage>E-mail inválido</InputErrorMessage>
+                     )}
                 </LoginInputContainer>
                 <LoginInputContainer>
                     <p>Senha</p>
@@ -61,6 +78,9 @@ const LoginPage = () => {
                     placeholder='Digite sua senha ' {...register('password', { required: true })}/>
                      {errors?.password?.type === 'required' && (
                         <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+                     )}
+                     {errors?.password?.type === 'invalida' && (
+                        <InputErrorMessage>Senha inválida</InputErrorMessage>
                      )}
                 </LoginInputContainer>
 
