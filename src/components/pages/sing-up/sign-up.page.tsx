@@ -38,7 +38,8 @@ const SignUpPage = () => {
         id: userCrendentials.user.uid,
         firstName: data.firstName,
         lastName: data.lastName,
-        email: userCrendentials.user.email
+        email: userCrendentials.user.email,
+        provider: 'firebase'
       })
     } catch (error) {
       const _error = error as AuthError
