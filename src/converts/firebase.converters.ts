@@ -1,5 +1,5 @@
 import { DocumentData, QueryDocumentSnapshot, SnapshotOptions } from '@firebase/firestore'
-import Category from '../../types/category.types'
+import Category from '../types/category.types'
 
 export const categoryConverter = {
   toFirestore (category: Category): DocumentData {

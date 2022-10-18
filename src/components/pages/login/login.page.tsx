@@ -9,9 +9,13 @@ import { LoginContainer, LoginContent, LoginHeadline, LoginInputContainer, Login
 import { useForm } from 'react-hook-form'
 import { BsGoogle } from 'react-icons/bs'
 import { FiLogIn } from 'react-icons/fi'
+
+// utilitis
 import CustomInput from '../../custom-input/custom-input.component'
 import InputErrorMessage from '../../input-error-message/input-error-message'
 import validator from 'validator'
+
+// Firebase/Firestone
 import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, db, googleProvider } from '../../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from '@firebase/firestore'

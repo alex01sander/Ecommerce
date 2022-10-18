@@ -4,6 +4,7 @@ import { FiLogIn } from 'react-icons/fi'
 // utilitis
 import { useForm } from 'react-hook-form'
 import validator from 'validator'
+import InputErrorMessage from '../../input-error-message/input-error-message'
 
 // Components
 import CustomButton from '../../custom-button/custom-button.component'
@@ -12,7 +13,6 @@ import Header from '../../header/header.components'
 
 // STYLES
 import { SignUpContainer, SignUpContent, SignUpHeadline, SignUpInputContainer } from './sing-up.styles'
-import InputErrorMessage from '../../input-error-message/input-error-message'
 
 // Firasebase/Firestore
 import { auth, db } from '../../../config/firebase.config'

@@ -12,7 +12,7 @@ import Category from '../../types/category.types'
 import { CategoriesContainer, CategoriesContent } from './categoris.styles'
 import { db } from '../../config/firebase.config'
 import { collection, getDocs } from '@firebase/firestore'
-import { categoryConverter } from '../converts/firebase.converters'
+import { categoryConverter } from '../../converts/firebase.converters'
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([])

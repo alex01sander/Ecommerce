@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Colors from '../../themes/theme.colors'
+import Colors from '../../../themes/theme.colors'
 
 export const SignUpContainer = styled.div`
   height: 100%;
