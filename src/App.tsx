@@ -28,7 +28,8 @@ const App: FunctionComponent = () => {
     const isSigningIn = !isAuthenticated && user
 
     if (isSigningIn) {
-      const querySnapshot = await getDocs(query(collection(db, 'users'), where('id', '==', user.uid)))
+      const querySnapshot = await getDocs(query(collection(db, 'users'),
+        where('id', '==', user.uid)))
 
       const userFromFirestore = querySnapshot.docs[0]?.data()
       return loginUser(userFromFirestore as any)
