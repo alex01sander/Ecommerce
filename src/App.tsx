@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './components/pages/home/home.page'
 import LoginPage from './components/pages/login/login.page'
 import SignUpPage from './components/pages/sing-up/sign-up.page'
-import { FunctionComponent, useContext } from 'react'
+import { FunctionComponent, useContext, useState } from 'react'
 import { UserContext } from './contexts/user.context'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from './config/firebase.config'
@@ -16,13 +16,16 @@ import { collection, getDocs, query, where } from '@firebase/firestore'
 // components
 
 const App: FunctionComponent = () => {
+  const [isInitializing, setIsInitializing] = useState(true)
   const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext)
 
   onAuthStateChanged(auth, async (user) => {
     const isSigningOut = isAuthenticated && !user
 
     if (isSigningOut) {
-      return logoutUser()
+      logoutUser()
+
+      return setIsInitializing(false)
     }
 
     const isSigningIn = !isAuthenticated && user
@@ -32,12 +35,13 @@ const App: FunctionComponent = () => {
         where('id', '==', user.uid)))
 
       const userFromFirestore = querySnapshot.docs[0]?.data()
-      return loginUser(userFromFirestore as any)
+      loginUser(userFromFirestore as any)
+      return setIsInitializing(false)
     }
+    return setIsInitializing(false)
   })
 
-  console.log({ isAuthenticated })
-
+  if (isInitializing) return null
   return (
     <>
 

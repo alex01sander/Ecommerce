@@ -19,6 +19,9 @@ import validator from 'validator'
 import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, db, googleProvider } from '../../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from '@firebase/firestore'
+import { UserContext } from '../../../contexts/user.context'
+import { useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface LoginForm {
     email: string
@@ -27,6 +30,14 @@ interface LoginForm {
 
 const LoginPage = () => {
   const { register, setError, formState: { errors }, handleSubmit } = useForm<LoginForm>()
+  const navigate = useNavigate()
+  const { isAuthenticated } = useContext(UserContext)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   const handleSubmitPress = async (data: LoginForm) => {
     try {
