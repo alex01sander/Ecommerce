@@ -11,6 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from './config/firebase.config'
 import { collection, getDocs, query, where } from '@firebase/firestore'
 import { userConverter } from './converts/firebase.converters'
+import LoadingComponent from './components/loading/loading.components'
 
 // Firebase/Firestore
 
@@ -42,7 +43,7 @@ const App: FunctionComponent = () => {
     return setIsInitializing(false)
   })
 
-  if (isInitializing) return null
+  if (isInitializing) return <LoadingComponent/>
   return (
     <>
 
