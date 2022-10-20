@@ -15,6 +15,9 @@ const Header = () => {
   const handleHomeClick = () => {
     navigate('/')
   }
+  const handleExploreClick = () => {
+    navigate('/explore')
+  }
 
   const handleLoginClick = () => {
     navigate('/login')
@@ -30,7 +33,7 @@ const Header = () => {
         <HeaderTile onClick={handleHomeClick}>Sander Shop</HeaderTile>
         <HeaderItems>
 
-                <HeaderItem>Explorar</HeaderItem>
+                <HeaderItem onClick={handleExploreClick}>Explorar</HeaderItem>
                 {!isAuthenticated && (
                     <>
                     <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
