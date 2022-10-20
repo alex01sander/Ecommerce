@@ -20,8 +20,9 @@ import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup 
 import { auth, db, googleProvider } from '../../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from '@firebase/firestore'
 import { UserContext } from '../../../contexts/user.context'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import LoadingComponent from '../../loading/loading.components'
 
 interface LoginForm {
     email: string
@@ -30,6 +31,9 @@ interface LoginForm {
 
 const LoginPage = () => {
   const { register, setError, formState: { errors }, handleSubmit } = useForm<LoginForm>()
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigate = useNavigate()
   const { isAuthenticated } = useContext(UserContext)
 
@@ -41,6 +45,7 @@ const LoginPage = () => {
 
   const handleSubmitPress = async (data: LoginForm) => {
     try {
+      setIsLoading(true)
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
 
       console.log(userCredential)
@@ -54,11 +59,14 @@ const LoginPage = () => {
       if (_error.code === AuthErrorCodes.USER_DELETED) {
         return setError('email', { type: 'emailInvalido' })
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleSignInWithGooglePress = async () => {
     try {
+      setIsLoading(true)
       const userCredentials = await signInWithPopup(auth, googleProvider)
 
       const querySnapshot = await getDocs(query(collection(db, 'users'), where('id', '==', userCredentials.user.uid)))
@@ -78,13 +86,15 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <>
         <Header/>
-
+         {isLoading && <LoadingComponent/>}
         <LoginContainer>
             <LoginContent>
                 <LoginHeadline>Entre com a sua conta</LoginHeadline>
