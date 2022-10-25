@@ -15,6 +15,7 @@ import LoadingComponent from './components/loading/loading.components'
 import ExplorePage from './components/pages/explore/explore.pages'
 import CategoryDetailsPages from './components/pages/category-details/category.pages'
 import Cart from './components/cart/cart.components'
+import CheckoutPage from './components/pages/checkout/checkout.page'
 
 // Firebase/Firestore
 
@@ -55,6 +56,7 @@ const App: FunctionComponent = () => {
                 <Route path='/' element={<HomePage/>}/>
                 <Route path='/explore' element={<ExplorePage/>}/>
                 <Route path='/category/:id' element={<CategoryDetailsPages/>}/>
+                <Route path='/checkout' element={<CheckoutPage/>}/>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/sign-up' element={<SignUpPage/>}/>
             </Routes>
